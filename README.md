@@ -134,7 +134,7 @@ socat port forwarding, is working correctly
 ![](./screenshot/6.jpg)
 ---
 
-## Step 6 On post 5000 page available 
+## Step 6 On port 5000 page available 
 ![](./screenshot/output.jpg)
 ## Troubleshooting
 - If Jenkins health-check `curl` fails:
