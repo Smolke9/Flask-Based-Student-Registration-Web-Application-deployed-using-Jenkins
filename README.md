@@ -1,15 +1,11 @@
 # Flask-Based Student Registration Web Application
 
-**Deployed using Jenkins**
-
-**Author:** Suraj Molke  
-**Mentors:** Ravindra Bagle, Swati Zampal  
-**Organization:** Fortune Cloud Technologies
-
 ---
 ## Project Overview
 A simple Flask web application that allows users to register students via a web form. Submitted data is stored in a MySQL database and can be retrieved/displayed. The project demonstrates form handling, backend logic, database connectivity, version control (Git/GitHub), and automated deployment using Jenkins.
 
+ ## Architectural diagram
+![screenshot](./screenshot/diagram.png)
 ---
 
 ## Technology Stack
@@ -24,7 +20,7 @@ A simple Flask web application that allows users to register students via a web 
 ## Repository (forked)
 - Original: `https://github.com/swati-zampal/stud-reg-flask-app.git`  
 - Fork: `https://github.com/Smolke9/stud-reg-flask-app.git`
-
+![screenshot](./screenshot/7.jpg)
 ---
 
 ## Features
@@ -36,7 +32,23 @@ A simple Flask web application that allows users to register students via a web 
 
 ---
 
-## Table Schema (MySQL)
+## Step 1 Installation (Local / Development)
+1. Install Python 3.8+  
+2. Create and activate a virtual environment:
+```bash
+python3 -m venv venv
+source venv/bin/activate   # macOS / Linux
+venv\Scripts\activate      # Windows
+```
+3. Install dependencies:
+```bash
+pip install -r requirements.txt
+# requirements.txt should include:
+# Flask==2.3.2
+# install mysql
+# mysql-connector-python
+```
+## Step 2  Table Schema (MySQL)
 Create database:
 ```sql
 CREATE DATABASE studentdb;
@@ -58,21 +70,6 @@ CREATE TABLE students (
 
 ---
 
-## Installation (Local / Development)
-1. Install Python 3.8+  
-2. Create and activate a virtual environment:
-```bash
-python3 -m venv venv
-source venv/bin/activate   # macOS / Linux
-venv\Scripts\activate      # Windows
-```
-3. Install dependencies:
-```bash
-pip install -r requirements.txt
-# requirements.txt should include:
-# Flask==2.3.2
-# mysql-connector-python
-```
 4. Configure your MySQL credentials (update `app.py` or use environment variables).  
 5. Run the Flask app:
 ```bash
@@ -83,15 +80,23 @@ flask run --host=0.0.0.0 --port=5000
 
 ---
 
-## Jenkins CI/CD Pipeline (high-level)
+## Step 3 Jenkins CI/CD Pipeline (high-level)
 The provided `Jenkinsfile` automates deployment with these stages:
 
-1. **Clone GitHub Repo** — Pull latest code.  
-2. **Create Virtual Environment** — Isolate Python deps.  
-3. **Install Dependencies** — Install Flask and MySQL connector.  
-4. **Run Flask App** — Start server on port `5000`.  
-5. **Expose Port using socat** — Forward `5000` → `5050` (or chosen external port).  
-6. **Verify Access** — `curl` health check to ensure the app responds.
+Install Jenkins
+1. Install Jenkins server.
+2. Install Git Plugin via Manage Jenkins → Manage Plugins.
+•	Manage Jenkins → Manage Plugins → Available → Git Plugin 
+•	Git
+•	Pipeline
+•	SSH Agent
+•	Ansible (optional)
+•	Python plugin
+
+
+## Step 4: Install socat
+Install socat on Jenkins agent using:
+sudo apt-get install socat
 
 **Notes:**
 - On Jenkins agents, install `socat` (e.g., `sudo apt-get install socat`) to forward ports.
@@ -115,9 +120,22 @@ The provided `Jenkinsfile` automates deployment with these stages:
 ## Usage
 - **Register:** Fill the form at `/` to add a student.  
 - **View Students:** Visit `/students` to list registered students.
-
+## Step 5 Jenkins Pipeline Stages
+8.1 Clone GitHub Repo – pulls latest code.
+![](./screenshot/3.jpg)
+8.2 Create Virtual Environment – isolates dependencies
+8.3 Install Dependencies – Flask + MySQL connector.
+8.4 Run Flask App – starts on port 5000.
+![](./screenshot/4.jpg)
+8.5 Verify Access and Jenkins Deploy Success – curl health check ensures app is running.
+A curl command is executed to perform a final health check. A successful
+response confirms that the entire deployment chain, from the Flask app to the
+socat port forwarding, is working correctly
+![](./screenshot/6.jpg)
 ---
 
+## Step 6 On post 5000 page available 
+![](./screenshot/output.jpg)
 ## Troubleshooting
 - If Jenkins health-check `curl` fails:
   - Confirm Flask started successfully on the agent.
