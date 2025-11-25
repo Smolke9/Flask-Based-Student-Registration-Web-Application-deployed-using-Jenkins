@@ -162,6 +162,4 @@ GitHub: https://github.com/Smolke9
 
 ---
 
-## License
-This repository does not include a license file in the PDF. Add a license such as MIT if you want to make the project open source.
 
